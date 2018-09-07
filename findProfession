@@ -1,0 +1,21 @@
+std::string findProfession(int level, int pos) {
+    int switches = 0;
+    while(level!=0)
+    {
+        // current node is a right child of it's parent, increment switches count
+        if(pos%2==0)
+        {
+            switches++;
+            pos = pos/2;
+        }
+        else
+        {
+            pos = (pos/2)+1;
+        } 
+        level--;
+    }
+    if(switches%2==0)
+        return "Engineer";
+    else
+        return "Doctor";
+}

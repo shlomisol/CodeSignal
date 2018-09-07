@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+int numDigits(int n)
+{
+    if(n/10==0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 1+numDigits(n/10);
+    }
+}
+
+int power(int base, int exp)
+{
+    if(exp==0)
+    {
+        return 1;
+    }
+    else
+    {
+        return base * power(base,exp-1);
+    }
+}
+
+int pagesNumbering(int n)
+{
+    if(n==1)
+    {
+        return 1;
+    }
+    int numOfDigits=numDigits(n);
+    int digitSum=0;
+    int lastRange=0;
+    int curRange=0;
+    for(int i=1; i<=numOfDigits; i++)
+    {
+        curRange=power(10,i)-lastRange;
+        if(i==1)
+        {
+            curRange--;
+        }
+        if(i==numOfDigits)
+        {
+            curRange=n-lastRange+1;
+            digitSum+=curRange*i;
+        }
+        else
+        {
+            digitSum+=curRange*i;
+            lastRange=power(10,i);
+        }
+    }
+    return digitSum;
+}

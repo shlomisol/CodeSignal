@@ -1,0 +1,35 @@
+#define ALPHABET 26
+enum {APEARENCES, FIRST_SEEN};
+char firstNotRepeatingCharacter(std::string s) {
+    int charApear[2][ALPHABET];
+    for(int i=0; i<2; i++)
+        for(int j=0; j<ALPHABET; j++)
+            charApear[i][j] = 0;
+    int stringLen = s.size();
+    for(int i=0; i<stringLen; i++)
+    {
+        if(charApear[APEARENCES][s[i] - 'a'] == 0)
+        {
+            charApear[FIRST_SEEN][s[i] - 'a'] = i;
+        }
+        charApear[APEARENCES][s[i] - 'a']++;
+    }
+    char firstNotRepeating = '_';
+    for(int i=0; i<ALPHABET; i++)
+    {
+        if(charApear[APEARENCES][i] > 1)
+        {
+            charApear[FIRST_SEEN][i] = stringLen + 1;
+        }
+    }
+    int firstApearIndex = stringLen;
+    for(int i=0; i<ALPHABET; i++)
+    {
+        if(charApear[APEARENCES][i] == 1 && charApear[FIRST_SEEN][i] < firstApearIndex)
+        {
+            firstNotRepeating = (char)(i + 'a');
+            firstApearIndex = charApear[FIRST_SEEN][i];
+        }
+    }
+    return firstNotRepeating;
+}

@@ -1,0 +1,15 @@
+bool sumOfTwo(std::vector<int> a, std::vector<int> b, int v) {
+    std::unordered_map<int,int> hashA;
+    for(auto& x : a)
+    {
+        hashA.insert(std::pair<int,int>(x,0));        
+    }
+    for(auto& x : b)
+    {
+        if(hashA.find(v-x)!=hashA.end())
+        {
+            return true;    
+        }
+    }
+    return false;
+}

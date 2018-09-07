@@ -1,0 +1,24 @@
+//
+// Definition for binary tree:
+// template<typename T>
+// struct Tree {
+//   Tree(const T &v) : value(v), left(nullptr), right(nullptr) {}
+//   T value;
+//   Tree *left;
+//   Tree *right;
+// };
+bool hasPathWithGivenSum(Tree<int> * t, int s) {
+    // the node is a leaf
+    if(t==NULL)
+    {
+        return false;
+    }
+    if(t->left==NULL && t->right==NULL)
+    {
+        if(t->value==s)
+            return true;
+        else
+            return false;
+    }
+    else return hasPathWithGivenSum(t->right, s-(t->value)) || hasPathWithGivenSum(t->left, s-(t->value));
+}

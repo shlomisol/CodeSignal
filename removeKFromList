@@ -1,0 +1,42 @@
+// Definition for singly-linked list:
+// template<typename T>
+// struct ListNode {
+//   ListNode(const T &v) : value(v), next(nullptr) {}
+//   T value;
+//   ListNode *next;
+// };
+//
+typedef ListNode<int> Node;
+void removeFromList(Node* prev, Node* cur, Node** head)
+{
+    // middle node removed
+    if(prev!=NULL)
+    {
+       prev->next=cur->next;
+    }
+    // head node removed
+    else
+    {
+        *head = cur->next;
+    }
+    delete(cur);
+}
+ListNode<int> * removeKFromList(ListNode<int> * l, int k) {
+    Node* cur = l;
+    Node* prev=NULL;
+    Node* next = l;
+    while(cur!=NULL)
+    {
+        next = cur->next;
+        if(cur->value==k)
+        {
+            removeFromList(prev, cur, &l);
+        }
+        else
+        {
+            prev = cur;    
+        }
+        cur = next;
+    }
+    return l;
+}

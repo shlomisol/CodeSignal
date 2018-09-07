@@ -1,0 +1,78 @@
+#define ROWS 9
+#define COLUMNS 9
+#define DIGITS 10
+
+int hist[DIGITS]={0};
+bool legalRow(std::vector<std::vector<int>> grid, int row)
+{
+    for(int i=0; i<DIGITS; i++)
+        hist[i]=0;
+    for(int j=0; j<COLUMNS; j++)
+    {
+        hist[grid[row][j]]++;
+        if(hist[grid[row][j]]>1)
+        {
+            return false;
+        }    
+    }
+    return true;
+}
+
+bool legalCol(std::vector<std::vector<int>> grid, int col)
+{
+    for(int i=0; i<DIGITS; i++)
+        hist[i]=0;
+    for(int i=0; i<ROWS; i++)
+    {
+        hist[grid[i][col]]++;
+        if(hist[grid[i][col]]>1)
+        {
+            return false;
+        }
+            
+    }
+    return true;
+}
+
+bool legalSquare(std::vector<std::vector<int>> grid, int rowPos, int colPos)
+{
+    for(int i=0; i<DIGITS; i++)
+        hist[i]=0;
+    for(int i=0; i<ROWS/3; i++)
+    {
+        for(int j=0; j<COLUMNS/3; j++)
+        {
+            hist[grid[rowPos+i][colPos+j]]++;
+            if(hist[grid[rowPos+i][colPos+j]] > 1)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool sudoku(std::vector<std::vector<int>> grid) {
+    // check every row for duplicates
+    for(int i=0; i<ROWS; i++)
+    {
+        if(!legalRow(grid,i))
+            return false;
+    }
+    // check every column for duplicates
+    for(int i=0; i<COLUMNS; i++)
+    {
+        if(!legalCol(grid,i))
+            return false;
+    }
+    // check every small square for duplicates
+    for(int i=0; i<ROWS-2; i+=3)
+    {
+        for(int j=0; j<COLUMNS-2; j+=3)
+        {
+            if(!legalSquare(grid,i,j))
+                return false;
+        }
+    }
+    return true;
+}

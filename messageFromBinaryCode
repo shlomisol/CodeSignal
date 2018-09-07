@@ -1,0 +1,29 @@
+#define CODE_LEN 8
+std::vector<int> stringToBitArray(const std::string& code)
+{
+    std::vector<int> res;
+    int codeLen=code.size();
+    for(int i=0; i<codeLen; i++)
+    {
+        res.push_back(code[i]-'0');
+    }
+    return res;
+}
+
+std::string messageFromBinaryCode(std::string code) {
+    std::vector<int> bitArray = stringToBitArray(code);
+    int codeLen = bitArray.size();
+    int curAscii = 0;
+    int curIndex = 0;
+    std::string res;
+    while(curIndex<codeLen)
+    {
+        for(int power=CODE_LEN-1; power>=0; power--, curIndex++)
+        {
+            curAscii+=bitArray[curIndex]*pow(2,power);
+        }
+        res.push_back(curAscii);
+        curAscii = 0;
+    }
+    return res;
+}

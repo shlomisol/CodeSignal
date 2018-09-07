@@ -1,0 +1,78 @@
+// Definition for singly-linked list:
+// template<typename T>
+// struct ListNode {
+//   ListNode(const T &v) : value(v), next(nullptr) {}
+//   T value;
+//   ListNode *next;
+// };
+
+typedef ListNode<int> Node;
+
+int getListLen(Node* head)
+{
+    int res = 0;
+    while(head!=NULL)
+    {
+        res++;
+        head = head -> next;
+    }
+    return res;
+}
+
+Node* getMidNode(Node* head, int len)
+{
+    // head node only / empty list case
+    if(len<=1)
+    {
+        return head;
+    }
+    int mid = len / 2;
+    int count = 0;
+    while(head != NULL && count < mid)
+    {
+        head = head -> next;
+        count++;
+    }
+    if(len %2 == 0)
+    {
+        return head;
+    }
+    else
+    {
+        return head -> next;
+    }
+
+}
+
+void revereseList(Node** head)
+{
+    Node* prev = NULL;
+    Node* cur = *head;
+    Node* next = *head;
+    while(cur != NULL)
+    {
+        next = cur -> next;
+        cur -> next = prev;
+        prev = cur;
+        cur = next;
+    }
+    *head = prev;
+}
+
+bool isListPalindrome(ListNode<int> * l) {
+    int len = getListLen(l);
+    Node* mid = getMidNode(l,len);
+    Node* head = l;
+    revereseList(&mid);
+    while(mid!=NULL)
+    {
+        if(head->value!=mid->value)
+        {
+            return false;
+        }
+        head = head -> next;
+        mid = mid -> next;
+    }
+    revereseList(&mid);
+    return true;
+}

@@ -1,0 +1,33 @@
+void updateSums(const vector<int>& coins, vector<int>& quantity, int cur, int sum, unordered_set<int>& sums)
+{
+    if(cur == coins.size())
+    {
+        if(sum != 0)
+            sums.insert(sum);
+        return;
+    }
+    if(quantity[cur] == 0)
+    {
+        if(sum != 0)
+            sums.insert(sum);
+        updateSums(coins, quantity, cur+1, sum, sums);
+    }
+    else
+    {
+        if(sum != 0)
+            sums.insert(sum);
+        // update the sum set when taking cur coin into account
+        quantity[cur]--;
+        updateSums(coins, quantity, cur, sum+coins[cur], sums);
+        
+        // backtrack and update the sum set when not taking cur coin into account
+        quantity[cur]++;
+        updateSums(coins, quantity, cur+1, sum, sums);
+    }
+}
+
+int possibleSums(std::vector<int> coins, std::vector<int> quantity) {
+    unordered_set<int> sums;
+    updateSums(coins, quantity, 0, 0, sums);
+    return sums.size();
+}

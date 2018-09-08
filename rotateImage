@@ -1,0 +1,19 @@
+std::vector<std::vector<int>> rotateImage(std::vector<std::vector<int>> a) {
+    int dim = a.size();
+    int curDim = dim;
+    int temp;
+    // for every layer
+    for(int i=0; curDim>=2; i++, curDim-=2)
+    {
+        // for every position to be changed in the current layer
+        for(int pos=0; pos<curDim-1; pos++)
+        {
+            temp = a[i][i+pos];
+            a[i][i+pos] = a[i+curDim-pos-1][i];
+            a[i+curDim-pos-1][i] = a[i+curDim-1][i+curDim-pos-1];
+            a[i+curDim-1][i+curDim-pos-1] = a[i+pos][i+curDim-1];
+            a[i+pos][i+curDim-1] = temp;
+        }
+    }
+    return a;
+}

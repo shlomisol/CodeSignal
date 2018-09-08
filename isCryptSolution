@@ -1,0 +1,37 @@
+enum{LETTER_POS, NUMBER_POS};
+enum{NUM1, NUM2, RESULT, NUMS_SIZE};
+#define COUNTING_BASE 10
+
+string getNumString(const string& word, map<char,char>& hash)
+{
+    string res;
+    for(char c : word)
+    {
+        res.push_back(hash[c]);
+    }
+    return res;
+}
+
+bool isCryptSolution(std::vector<std::string> crypt, std::vector<std::vector<char>> solution) {
+    map<char,char> hash;
+    string numString;
+    long nums[NUMS_SIZE]={0};
+    int solutionSize = solution.size();
+    for(int i = 0; i < solutionSize; i++)
+    {
+        hash.insert(pair<char,char>(solution[i][LETTER_POS],solution[i][NUMBER_POS]));    
+    }
+    int cryptSize = crypt.size();
+    // for every word in crypt
+    for(int i=0; i<cryptSize; i++)
+    {
+        // leading zero
+        if(hash[crypt[i][0]] == '0' && crypt[i].size() > 1)
+            return false;
+        numString = getNumString(crypt[i], hash);
+        nums[i] = stoi(numString, nullptr, COUNTING_BASE);
+    }
+    if(nums[NUM1] + nums[NUM2] == nums[RESULT])
+        return true;
+    else return false;
+}

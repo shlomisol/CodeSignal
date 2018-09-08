@@ -1,0 +1,85 @@
+#define DIGITS 10
+bool legalSubSquare(std::vector<std::vector<char>> grid, int startRow,int startCol, vector<int>& hist)
+{
+    fill(hist.begin(), hist.end(), 0);
+    int rows = grid.size()/3;
+    int cols = rows;
+    for(int i=0; i<rows; i++)
+    {
+        for(int j=0; j<cols; j++)
+        {
+            if(grid[startRow+i][startCol+j] == '.')
+                continue;
+            hist[grid[startRow+i][startCol+j]-'0']++;
+        }
+    }
+    for(int i=0; i<DIGITS; i++)
+    {
+        if(hist[i]>1)
+            return false;
+    }
+    return true;
+}
+
+bool legalCol(std::vector<std::vector<char>> grid, int col, vector<int>& hist)
+{
+    fill(hist.begin(), hist.end(), 0);
+    int rows = grid.size();
+    for(int i=0; i<rows; i++)
+    {
+        if(grid[i][col] == '.')
+            continue;
+        hist[grid[i][col]-'0']++;
+    }
+    for(int i=0; i<DIGITS; i++)
+    {
+        if(hist[i]>1)
+            return false;
+    }
+    return true;
+}
+
+bool legalRow(std::vector<std::vector<char>> grid, int row, vector<int>& hist)
+{
+    fill(hist.begin(), hist.end(), 0);
+    int cols = grid.size();
+    for(int j=0; j<cols; j++)
+    {
+        if(grid[row][j] == '.')
+            continue;
+        hist[grid[row][j]-'0']++;
+    }
+    for(int i=0; i<DIGITS; i++)
+    {
+        if(hist[i]>1)
+            return false;
+    }
+    return true;
+}
+
+bool sudoku2(std::vector<std::vector<char>> grid) {
+    int dim = grid.size();
+    vector<int> hist(DIGITS,0);
+    // check validity of every row
+    for(int i=0; i<dim; i++)
+    {
+        if(!legalRow(grid,i,hist))
+            return false;
+    }
+    // check validity of every column
+    for(int j=0; j<dim; j++)
+    {
+        if(!legalCol(grid,j,hist))
+            return false;
+    }
+    // check validity of sub-square
+    for(int i=0; i<dim; i+=3)
+    {
+        for(int j=0; j<dim; j+=3)
+        {
+            if(!legalSubSquare(grid,i,j,hist))
+                return false;
+        }
+    }
+    return true;
+}

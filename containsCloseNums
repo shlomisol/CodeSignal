@@ -1,0 +1,27 @@
+bool containsCloseNums(std::vector<int> nums, int k) {
+    unordered_map<int,int> lastSeenNum;
+    unordered_map<int,int>::iterator it;
+    
+    // for every num in nums list
+    for(int i=0; i<nums.size(); i++)
+    {
+        it = lastSeenNum.find(nums[i]);
+        
+        // if the num was seen already check if the (currentIndex - lastSeenIndex) is smaller than k
+        if(it != lastSeenNum.end())
+        {
+            if((i - it->second)<=k)
+                return true;
+            
+            // update last seen index to current index
+            it -> second = i;
+        }
+        
+        // the num was seen for the first time, document its first seen index
+        else
+        {
+            lastSeenNum.insert(pair<int,int>(nums[i],i));
+        }
+    }
+    return false;
+}

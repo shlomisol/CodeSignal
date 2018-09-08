@@ -1,0 +1,32 @@
+//
+// Definition for binary tree:
+// template<typename T>
+// struct Tree {
+//   Tree(const T &v) : value(v), left(nullptr), right(nullptr) {}
+//   T value;
+//   Tree *left;
+//   Tree *right;
+// };
+bool areTreesEqual(Tree<int> * t1, Tree<int> * t2)
+{
+    // both trees are empty
+    if(!t1 && !t2)
+        return true;
+    // only one tree is empty
+    if(t1 && !t2 || !t1 && t2)
+        return false;
+    if(t1->value != t2->value)
+        return false;
+    return areTreesEqual(t1->left,t2->left) && areTreesEqual(t1->right,t2->right);
+}
+bool isSubtree(Tree<int> * t1, Tree<int> * t2) {
+    // empty tree is a sub-tree of any tree
+    if(!t2)
+        return true;
+    // an existing tree cannot be a sub-tree of the empty tree
+    if(!t1 && t2)
+        return false;
+    if(areTreesEqual(t1,t2))
+        return true;
+    return isSubtree(t1->left,t2) || isSubtree(t1->right,t2);
+}

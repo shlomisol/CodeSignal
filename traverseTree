@@ -1,0 +1,27 @@
+//
+// Definition for binary tree:
+// template<typename T>
+// struct Tree {
+//   Tree(const T &v) : value(v), left(nullptr), right(nullptr) {}
+//   T value;
+//   Tree *left;
+//   Tree *right;
+// };
+std::vector<int> traverseTree(Tree<int> * t) {
+    queue<Tree<int>*> priority;
+    Tree<int>* cur = t;
+    priority.push(cur);
+    vector<int> res;
+    while(!priority.empty())
+    {
+        if(cur != NULL)
+        {
+            res.push_back(cur->value);
+            priority.push(cur->left);
+            priority.push(cur->right);
+        }
+        priority.pop();
+        cur = priority.front();
+    }
+    return res;
+}

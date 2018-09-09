@@ -1,0 +1,22 @@
+bool regexMatching(std::string pattern, std::string test) {
+    int patternSize = pattern.size();
+    int testSize = test.size();
+    string subString;
+    
+    // check for a match with the beginning of test
+    if(pattern[0] == '^')
+    {
+        subString = test.substr(0,patternSize - 1);
+        return subString == pattern.substr(1);
+    }
+    
+    // check for a match with the end of test
+    if(pattern[patternSize - 1] == '$')
+    {
+        subString = test.substr(testSize - patternSize + 1);
+        return subString == pattern.substr(0,patternSize - 1);
+    }
+    
+    // check for a match in the entire string
+    return test.find(pattern) != string::npos;
+}

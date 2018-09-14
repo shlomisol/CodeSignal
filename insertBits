@@ -1,0 +1,35 @@
+#define MAX_BITS 32
+
+int insertBits(int n, int a, int b, int k) {
+    int32_t n32 = n;
+    int32_t k32 = k;
+    int32_t mask = 1;
+    int shifts = 1;
+    vector<bool> bits;
+    // create bit representation of n
+    while(shifts <= MAX_BITS)
+    {
+        bits.push_back(n&mask);
+        mask = mask << 1;
+        shifts ++;
+    }
+    shifts = 1;
+    mask = 1;
+    int i = a;
+    // replace a to b bits with k bits
+    while(shifts <= MAX_BITS && i<=b)
+    {
+        bits[i] = k&mask;
+        mask = mask << 1;
+        shifts++;
+        i++;
+    }
+    int res = 0;
+    int bitsSize = bits.size();
+    int curPow = 1;
+    for(int i=0; i<bitsSize; i++, curPow*=2)
+    {
+        res += bits[i]*curPow;
+    }
+    return res;
+}

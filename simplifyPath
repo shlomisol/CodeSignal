@@ -1,0 +1,56 @@
+std::string simplifyPath(std::string path) {
+    size_t firstSlash = path.find_first_of('/');
+    // path is empty or illegal
+    if(firstSlash == string::npos)
+    {
+        return path;
+    }
+    size_t secondSlash = path.find_first_of('/', firstSlash+1);
+    // path contains only '/'
+    if(secondSlash == string::npos)
+    {
+        return path;
+    }
+    stack<string> directories;
+    // leading '/' is missing
+    if(firstSlash>0)
+    {
+        directories.push(path.substr(0,firstSlash));
+    }
+    int pathLen = path.size();
+    string cur;
+    while(firstSlash < pathLen)
+    {
+        cur = path.substr(firstSlash+1, secondSlash-firstSlash-1);
+        if(cur == "..")
+        {
+            if(!directories.empty())
+            {
+                directories.pop();    
+            }
+        }
+        else if(cur!="." && cur != "")
+        {
+            directories.push(cur);
+        }
+        firstSlash = secondSlash;
+        secondSlash = path.find_first_of('/', firstSlash+1);
+    }
+    stack<string> rev;
+    while(!directories.empty())
+    {
+        rev.push(directories.top());
+        directories.pop();
+    }
+    string res = "/";
+    while(!rev.empty())
+    {
+        res+=rev.top();
+        if(rev.size()>1)
+        {
+            res.push_back('/');    
+        }
+        rev.pop();
+    }
+    return res;
+}

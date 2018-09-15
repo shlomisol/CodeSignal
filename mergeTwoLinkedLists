@@ -1,0 +1,43 @@
+// Definition for singly-linked list:
+// template<typename T>
+// struct ListNode {
+//   ListNode(const T &v) : value(v), next(nullptr) {}
+//   T value;
+//   ListNode *next;
+// };
+//
+ListNode<int> * mergeTwoLinkedLists(ListNode<int> * l1, ListNode<int> * l2) {
+    ListNode<int>* cur1 = l1;
+    ListNode<int>* cur2 = l2;
+    ListNode<int>* dummy = new ListNode<int>(0);
+    ListNode<int>* tail = dummy;
+    while(cur1 && cur2)
+    {
+        if(cur1->value<=cur2->value)
+        {
+            tail->next=new ListNode<int>(cur1->value);
+            cur1 = cur1->next;
+        }
+        else
+        {
+            tail->next = new ListNode<int>(cur2->value);
+            cur2 = cur2->next;
+        }
+        tail = tail -> next;
+    }
+    while(cur1)
+    {
+        tail->next = new ListNode<int>(cur1->value);
+        cur1 = cur1->next;
+        tail = tail->next;
+    }
+    while(cur2)
+    {
+        tail->next = new ListNode<int>(cur2->value);
+        cur2 = cur2->next;
+        tail = tail->next;
+    }
+    ListNode<int>* head = dummy->next;
+    delete dummy;
+    return head;
+}
